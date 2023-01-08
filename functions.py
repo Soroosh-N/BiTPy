@@ -5,26 +5,27 @@ import os.path
 def logger(log_id, event, des):
     log_id = log_id.lower()
     log_file_name = log_id + "_log.txt"
+    NOW = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     if not os.path.exists(log_file_name):
         # Initialising of log file for THIS entity
         with open(log_file_name, "w") as log_file:
             log = \
                 '"file_name": "' + log_file_name + '", \n' + \
-                '"creation": "' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '", \n' + \
-                '"last update": "' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '",\n' + \
+                '"creation": "' + NOW + '", \n' + \
+                '"last update": "' + NOW + '",\n' + \
                 '"logs":\n'
             log_file.write(log)
     # Now do the log
     with open(log_file_name, "r") as log_up_file:
         # read a list of lines into line variable
         line = log_up_file.readlines()
-        line[2] = '"last update": "' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '",\n'
+        line[2] = '"last update": "' + NOW + '",\n'
     with open(log_file_name, 'w') as log_up_file:
         # and write everything back
         log_up_file.writelines(line)
     with open(log_file_name, 'a') as log_up_file:
         # append log to file
-        n_log = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '"    "' + event + '"    "' + des + '",\n'
+        n_log = NOW + '"    "' + event + '"    "' + des + '",\n'
         log_up_file.write(n_log)
 
 
